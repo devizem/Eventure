@@ -1,0 +1,7 @@
+{
+  "name": "eventure",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
