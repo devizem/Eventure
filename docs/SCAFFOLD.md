@@ -1,131 +1,13 @@
-# Eventure
 
-## What we’ll build
+## Feature module: events
 
-We'll create an Event Repository app to find out traditional events all over the world, w/ advanced search options (incl. geo queries), share w/ friends and set reminder.
-The aim of app is to store interesting events to give travel ideas, or discover new cultures and traditions.
-
-We'll use [Ionic] for UI with [Angular], [Firestore] as Cloud db and [AngularFire], the official Angular library for Firebase.
-
-The great thing about [Ionic](https://ionicframework.com/) is that with one codebase, you can build for any platform using just HTML, CSS, and JavaScript.
-
-Highlights include:
-
-- One Angular-based codebase that runs on the web, iOS, and Android using Ionic Framework UI components.
-- Deployed as a PWA using [@angular/pwa](https://angular.io/guide/service-worker-getting-started)
-- Deployed as a native iOS and Android mobile app using Capacitor, Ionic's official native app runtime.
-- Event search functionality [nearby](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API) or on selected location powered by the [Geo queries](https://firebase.google.com/docs/firestore/solutions/geoqueries).
-- Provide [user authentication](https://firebase.google.com/docs/auth/web/firebaseui) to ...
-- [Firebase Cloud function](https://firebase.google.com/products/functions) to handle backend img processing, geo coordinates and notifications.
-
-## Good practices
-
-### Coding
-
-Our main concern is to apply good/recommended coding practices:
-
-- [x] Lazy load pages and deep-linking
-  - [Angular Firebase: How to Lazy Load Components in Angular 4 in Three Steps](https://angularfirebase.com/lessons/how-to-lazy-load-components-in-angular-4-in-three-steps/)
-- [x] Shared and Core modules
-  - [6 Best Practices & Pro Tips when using Angular CLI](https://medium.com/@tomastrajan/6-best-practices-pro-tips-for-angular-cli-better-developer-experience-7b328bc9db81)
-- [x] Observable data service
-  - [Angular university - How to build Angular apps using Observable Data Services](https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/)
-  - [Cory Rylan - Angular Observable Data Services](https://coryrylan.com/blog/angular-observable-data-services)
-- [x] Keep a consistent timestamp via back-end server
-  - [AngularFirebase: CRUD Operations with Server Timestamps](https://angularfirebase.com/lessons/firestore-advanced-usage-angularfire/#3-CRUD-Operations-with-Server-Timestamps)
-
-## What you'll need
-
-We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova]. Follow the [Android](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html) and [iOS](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html) platform guides to install required tools for development.
-
-And of course you'll also need a [Firebase] account.
-
-## Methodology
-
-Each main section below corresponds to a visible milestone of the project, where you can validate work on progress running App.
-
-1. Create a project
-2. Run & deploy the application
-3. Create pages and routing
-4. Data modeling
-5. Add Firebase on project
-6. Observable data service
-
-By this way you can pickup what is interesting for you and/or run tutorial on several days always keeping a stable state of project, avoid big bang ;-)
-
-## Create your project
-
-### Prerequisites
-
-- [@ionic/cli](https://ionicframework.com/docs/cli)
-- [native-run](https://www.npmjs.com/package/native-run), used to run native binaries on devices and simulators/emulators
-- [cordova-res](https://www.npmjs.com/package/cordova-res), used to generate native app icons and splash screens:
-
-```sh
-$ npm install -g @ionic/cli native-run cordova-res
-$ npm ls -g cordova @ionic/cli@ npm typescript @angular/cli                                      (master)eventure
-├── @angular/cli@13.3.0
-├── @ionic/cli@6.18.2
-├── npm@8.3.1
-└── typescript@4.6.2
-```
-
-### Create an Ionic/angular app
-
-Next, create an Ionic Angular app that uses the “blank” starter template and adds Cordova for native functionality:
-
-```
-$ ionic start eventure blank --type=angular --cordova --package-id=com.eventure.app
-```
-
-That means:
-
-- `ionic start` creates the app.
-- `eventure` is the name we gave it.
-- `blank` tells the Ionic CLI the template you want to start with. You can list available templates using [ionic start --list](https://ionicframework.com/docs/cli/commands/start#options)
-- `--type=angular` type of project to start (e.g. angular, react, ionic-angular, ionic1)
-- `--capacitor` include Cordova integration (default config.xml, iOS and Android resources, like icon and splash screen)
-- `--package-id=com.eventure.app` specify the bundle ID/application ID for your app (reverse-DNS notation)
-
-## Run the application
-
-### Run on web browser
-
-```
-$ cd eventure
-$ ionic serve
-> ng run app:serve --host=localhost --port=8100
-...
-```
-
-### Ionic lab to test iOS and Android rendering
-
-To test iOS and Android views I recommend using [@ionic/lab](https://www.npmjs.com/package/@ionic/lab) package
-
-`$ npm i --save-dev @ionic/lab`
-
-and run
-
-```
-$ ionic serve --lab
-```
-
-### Deploy native Apps on device
-
-It's not the purpose of this tutorial, so I will not develop this topic but if you need check links below for more details:
-
-- [deploy Ionic apps to iOS](https://ionicframework.com/docs/building/ios) simulators and devices using Cordova
-- [deploy Ionic apps to Android](https://ionicframework.com/docs/building/android) simulators and devices using Cordova
-
-# Feature module: events
-
-## Module
+### Module
 
 ```
 $ ng generate module events --routing
 ```
 
-## Components
+### Components
 
 ```
 $ ng g c events/event-list
@@ -134,7 +16,7 @@ $ ng g c events/event-form
 $ ng g c events/event-headline
 ```
 
-## Routing
+### Routing
 
 Next, open and edit src/app/events/events-routing.module.ts to add new routes. No need to import components we’ll prefer lazy-loading.
 
@@ -181,19 +63,182 @@ $ ng generate class events/event --type model --skipTests
 CREATE src/app/events/event.model.ts (22 bytes)
 ```
 
-```
+```ts
 export class event {
   id: string;
-  highlight: string;
-  createdAt: string; // 2018-10-09T16:18:45Z
-  modifiedAt: string; // 2018-10-09T16:18:45Z
-  link: string;
-  userId: string;
+  name: string,
+  description?: string,
+  picture?: string,
+  startDate: string = null,  // 2018-10-09T16:18:45Z
+  endDate: string = null,  // 2018-10-09T16:18:45Z
+  createdDate: string = null,  // 2018-10-09T16:18:45Z
+  modifiedDate: string = null,  // 2018-10-09T16:18:45Z
+  publishedDate: string = null  // 2018-10-09T16:18:45Z
+
+  constructor(props: any) {
+    Object.entries(props).forEach(([key, value]) => (this[key] = value));
+  }
 }
 ```
 
 ### Mock
 
+```
+$ ng g class events/event-mock --skipTests
+CREATE src/app/events/event-mock.ts (26 bytes)
+```
+
+```ts
+export class EventMock {
+  public static data: Eventure[] = [
+    {
+      id: '123',
+      name: 'I learned to READ my dreams (and you can too)',
+      description:
+        'One night, about 18 months ago, I had a vivid dream about a mole that was poisoning me. When, a few nights later, I had the same strange dream again, I Googled what being sick in a dream might mean.',
+      picture:
+        'https://i.dailymail.co.uk/1s/2019/08/28/21/17803628-0-image-a-131_1567024609120.jpg',
+      startDate: '2019-08-28T14:48:00.000Z',
+      endDate: '2019-08-28T14:48:00.000Z',
+      publishedAt: '2019-08-28T14:48:00.000Z',
+      createdAt: '2019-08-28T14:48:00.000Z',
+      modifiedAt: '2019-08-28T14:48:00.000Z',
+    },
+    {
+      id: '124',
+      name: "Square Crypto Praises Gimmicky Bitcoin Giveaways but Doesn't Give Any Away",
+      description:
+        'Basically, Square Crypto argues that if you give bitcoin to someone (especially a skeptic), they’ll become emotionally invested in its success. Why? Because then they’ll have skin in the game.',
+      picture:
+        'https://www.ccn.com/wp-content/uploads/2019/08/bitcoin-giveaway-ss.jpg',
+      startDate: '2019-08-28T14:48:00.000Z',
+      endDate: '2019-08-28T14:48:00.000Z',
+      publishedAt: '2019-08-28T14:48:00.000Z',
+      createdAt: '2019-08-28T14:48:00.000Z',
+      modifiedAt: '2019-08-28T14:48:00.000Z',
+    },
+  ];
+}
+```
+
 ## Observable data service
 
 ### Mock
+
+```
+$ ng g service events/shared/services/event-mock
+CREATE src/app/events/shared/services/event-mock.service.spec.ts (373 bytes)
+CREATE src/app/events/shared/services/event-mock.service.ts (138 bytes)
+```
+
+```js
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { EventMock } from '../../event-mock';
+import { Eventure } from '../../event.model';
+import { delay } from 'rxjs/operators';
+import keyBy from 'lodash/keyBy';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EventMockService {
+  // Copy object references into the new array (shallow copy)
+  // https://stackoverflow.com/questions/7486085/copy-array-by-value
+  private data: Eventure[] = [...EventMock.data];
+  private events: BehaviorSubject<Eventure[]> = new BehaviorSubject(this.data);
+
+  constructor() {}
+
+  get data$(): Observable<Eventure[]> {
+    return this.events.asObservable().pipe(delay(2000)); // delay to simulate http request
+  }
+
+  create(event: Eventure): Promise<any> {
+    this.data.push(event);
+    this.events.next(this.data);
+
+    return Promise.resolve();
+  }
+
+  getById(id: string): Promise<Eventure> {
+    let eventsKeyById = keyBy(this.data, 'id');
+    const event = eventsKeyById[id] || null;
+    return new Promise((resolve) => setTimeout(() => resolve(event), 2000));
+  }
+
+  update(id: string, data: Partial<Eventure>): Promise<void> {
+    let eventsKeyById = keyBy(this.data, 'id');
+    eventsKeyById[id] = { ...eventsKeyById[id], ...data };
+    this.data = Object.values(eventsKeyById);
+    this.events.next(this.data);
+
+    return Promise.resolve();
+  }
+
+  delete(id: string): Promise<void> {
+    let eventsKeyById = keyBy(this.data, 'id');
+    delete eventsKeyById[id];
+    this.data = Object.values(eventsKeyById);
+    this.events.next(this.data);
+
+    return Promise.resolve();
+  }
+}
+```
+
+## Templates
+
+### item-list
+
+```html
+<ng-container *ngIf="items$ | async as items; else loading">
+  <div *ngIf="items.length > 0; else empty">
+    <ul *ngFor="let item of items">
+      <li routerLink="/items/detail/{{ item.id }}">{{ item.title }}</li>
+    </ul>
+  </div>
+</ng-container>
+<ng-template #loading>Loading...</ng-template>
+<ng-template #empty>No items found!</ng-template>
+```
+
+
+### item-detail
+
+```html
+<ng-container *ngIf="item !== undefined; else loading">
+  <div *ngIf="item !== null; else empty">
+    <h2>{{ item.title }}</h2>
+  </div>
+</ng-container>
+<ng-template #loading>Loading...</ng-template>
+<ng-template #empty>Item not found!</ng-template>
+```
+
+## PWA
+
+According to Google, there are [three characteristics that define every PWA](https://developers.google.com/web/progressive-web-apps/):
+
+- Reliable - Load instantly and never show the downasaur, even in uncertain network conditions.
+- Fast - Respond quickly to user interactions with silky smooth animations and no janky scrolling.
+- Engaging - Feel like a natural app on the device, with an immersive user experience.
+
+Angular built-in PWA with [@angular/pwa](https://angular.io/guide/service-worker-getting-started).
+
+Testing with [Lighthouse](https://developers.google.com/web/ilt/pwa/lighthouse-pwa-analysis-tool) and [thinkwithgoogle - Test my site](https://www.thinkwithgoogle.com/feature/testmysite) (for layman’s terms)
+
+Performance:
+
+- Caching
+- Image optimization
+
+[node.js]: https://nodejs.org/en/download/
+[git]: http://git-scm.com/download
+[ionic]: https://ionicframework.com/
+[cordova]: https://cordova.apache.org/
+[angularfire]: https://github.com/angular/angularfire2
+[angular]: https://angular.io/
+[firebase]: https://firebase.google.com/
+[firestore]: https://firebase.google.com/products/firestore/
+[firebase authentication]: https://firebase.google.com/docs/auth
