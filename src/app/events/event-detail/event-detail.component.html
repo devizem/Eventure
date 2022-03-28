@@ -1,0 +1,43 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      EventureDetails
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>{{location}}</ion-card-subtitle>
+          <ion-card-title>{{title}}</ion-card-title>
+        </ion-card-header>
+        <!-- <ion-img [src]="https://media.engenhariaradio.pt/2019/06/mno_balao_sao_Joao.jpg"></ion-img> -->
+        <ion-card-content>
+
+          <p>
+            {{description}}
+          </p>
+        <h1 style="color: white; margin: 20px 0;">More about</h1>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, sit impedit? Voluptates pariatur nisi aperiam nihil vel, hic consequuntur provident similique possimus labore itaque fuga aspernatur nulla eos! Maxime, quibusdam!
+            A, commodi maxime autem quam fuga, cum voluptates assumenda magnam fugiat libero dicta distinctio quos velit sunt ab ad? Sed beatae sint inventore, quas minima repellat deleniti debitis. Autem, deserunt!
+            Blanditiis reiciendis mollitia cupiditate error officiis saepe ullam sit voluptate veritatis. Vitae debitis fuga tempore dolorem cum magnam laudantium ipsum, eius porro reprehenderit sed numquam maiores eum illo praesentium adipisci!
+            Distinctio minus hic autem accusamus necessitatibus delectus nulla, perferendis laboriosam magni dignissimos deleniti quibusdam cumque quam? Assumenda libero minus voluptatum laborum consequuntur rem sunt dicta quasi modi harum, eius molestiae.
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+      <ion-row >
+        <ion-col size="8">
+          <ion-button (click)="openModel()" expand="block" color="success">Edit</ion-button>
+        </ion-col>
+        <ion-col size="4">
+          <ion-button (click)="onDeleteHandle()" expand="block" color="success">Delete</ion-button>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+</ion-content>

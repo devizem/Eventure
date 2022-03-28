@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Eventures
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-card *ngFor="let event of events">
+      <button style="text-align: left;" [routerLink]="['details',event]" ion-item>
+        <ion-card-header>
+          <ion-card-subtitle>{{event.location}}</ion-card-subtitle>
+          <ion-card-title>{{event.title}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          {{event.description}}
+        </ion-card-content>
+      </button>
+    </ion-card>
+
+    <div style="display: flex; justify-content: center;">
+      <ion-button  (click)="openModel()" color="success" shape="round">
+        <ion-icon size="large" color="light" slots="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+
+
+    </div>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Create/Edit
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <ion-list [formGroup]="profileForm">
+      <ion-item>
+        <ion-label for="title-name" >Title </ion-label>
+        <input class="ion-margin" id="title-name" type="text" formControlName="title" autocomplete="off" >
+      </ion-item>
+      <ion-item>
+        <ion-label for="location-name">Location</ion-label>
+        <input class="ion-margin" id="location-name" type="text" formControlName="location" autocomplete="off" >
+      </ion-item>
+      <ion-item >
+        <ion-label for="description">Description</ion-label>
+        <textarea class="ion-margin" id="description" formControlName="description" autocomplete="off" style="height: 200px;" ></textarea>
+      </ion-item>
+
+    </ion-list>
+
+   
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-button color="success" expand="block" (click)="onSubmit()">
+    Submit
+  </ion-button>
+</ion-footer>
