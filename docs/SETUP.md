@@ -1,4 +1,4 @@
-# Setup Dev tools
+# Setup dev env/tools
 
 ## Use ng schematics instead of @ionic/angular-toolkit
 
@@ -7,6 +7,7 @@ The backward of Ionic schematics is that sometimes they are not up-to-date w/ An
 Then we prefer to use angular schematics.
 
 ### Remove @ionic/angular-toolkit cli references
+
 To achieve it we remove following nodes from `angular.json`.
 
 ```json

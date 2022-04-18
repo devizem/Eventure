@@ -1,0 +1,63 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/events"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Eventure detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid *ngIf="event !== null; else empty">
+    <ion-row>
+      <ion-card *ngIf="event !== undefined; else loading">
+        <ng-container >
+          <ion-card-header>
+            <ion-card-subtitle>{{ event.id }}</ion-card-subtitle>
+            <ion-card-title>{{ event.name }}</ion-card-title>
+          </ion-card-header>
+          <!-- <img src="https://media.engenhariaradio.pt/2019/06/mno_balao_sao_Joao.jpg"/> -->
+          <ion-card-content>
+            <p>
+              {{ event.description }}
+            </p>
+          </ion-card-content>
+        </ng-container>
+      </ion-card>
+    </ion-row>
+    <ion-row>
+      <ion-col size="8">
+        <ion-button (click)="openModel()" expand="block" color="success">Edit</ion-button>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button (click)="deleteEvent(event?.id)" expand="block" color="success">Delete</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ng-template #loading>
+  <ion-card>
+    <ng-container>
+      <ion-card-header>
+        <h1>
+          <ion-skeleton-text animated style="height: 2rem;"></ion-skeleton-text>
+        </h1>
+        <h2>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </h2>
+      </ion-card-header>
+      <ion-skeleton-text style="height: 200px; margin: auto; width: 200px"></ion-skeleton-text>
+      <ion-card-content>
+        <p>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </p>
+      </ion-card-content>
+    </ng-container>
+  </ion-card>
+</ng-template>
+
+<ng-template #empty>No Results</ng-template>
