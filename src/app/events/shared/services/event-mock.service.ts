@@ -39,7 +39,7 @@ export class EventMockService {
     this.data = Object.values(eventsKeyById);
     this.events.next(this.data);
 
-    return Promise.resolve();
+    return new Promise((resolve) => setTimeout(() => resolve(), 3000));
   }
 
   delete(id: string): Promise<void> {

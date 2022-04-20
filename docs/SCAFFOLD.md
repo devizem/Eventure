@@ -2,13 +2,13 @@
 
 ### Module
 
-```
+```sh
 $ ng generate module events --routing
 ```
 
 ### Components
 
-```
+```sh
 $ ng g c events/event-list
 $ ng g c events/event-detail
 $ ng g c events/event-form
@@ -19,25 +19,32 @@ $ ng g c events/event-headline
 
 Next, open and edit src/app/events/events-routing.module.ts to add new routes. No need to import components we’ll prefer lazy-loading.
 
-```
+```ts
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', loadChildren: './pages/events-list/events-list.module#eventsListPageModule'},
-  { path: 'detail/:id', loadChildren: './pages/event-detail/event-detail.module#eventDetailPageModule'},
+  {
+    path: '',
+    loadChildren: './pages/events-list/events-list.module#eventsListPageModule',
+  },
+  {
+    path: 'detail/:id',
+    loadChildren:
+      './pages/event-detail/event-detail.module#eventDetailPageModule',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class eventsRoutingModule { }
+export class eventsRoutingModule {}
 ```
 
 And now add events route on `AppRoutingModule`
 
-```
+```ts
 ...
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -57,7 +64,7 @@ At this stage you can add links on pages to test navigation or access directly t
 
 ### Model
 
-```
+```sh
 $ ng generate class events/event --type model --skipTests
 CREATE src/app/events/event.model.ts (22 bytes)
 ```
@@ -82,7 +89,7 @@ export class event {
 
 ### Mock
 
-```
+```sh
 $ ng g class events/event-mock --skipTests
 CREATE src/app/events/event-mock.ts (26 bytes)
 ```
@@ -124,13 +131,13 @@ export class EventMock {
 
 ### Mock
 
-```
+```sh
 $ ng g service events/shared/services/event-mock
 CREATE src/app/events/shared/services/event-mock.service.spec.ts (373 bytes)
 CREATE src/app/events/shared/services/event-mock.service.ts (138 bytes)
 ```
 
-```js
+```ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { EventMock } from '../../event-mock';

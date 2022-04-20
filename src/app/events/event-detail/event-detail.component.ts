@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { delay } from 'rxjs/operators';
 import { Eventure } from '../event.model';
 import { EventService } from '../shared/services';
+import { EventFormComponent } from '../event-form/event-form.component';
 
 @Component({
   selector: 'app-event-detail',
@@ -14,6 +17,7 @@ export class EventDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventService,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -24,8 +28,18 @@ export class EventDetailComponent implements OnInit {
     });
   }
 
-  async deleteEvent(eventId: string) {
-    await this.eventService.delete(eventId);
+  async editEvent() {
+    if (!this.event) return
+    const modal = await this.modalCtrl.create({
+      component: EventFormComponent,
+      componentProps: { event: this.event }
+    });
+
+    return await modal.present();
+  }
+
+  async deleteEvent() {
+    await this.eventService.delete(this.event.id);
     this.router.navigate(['/events']);
   }
 }

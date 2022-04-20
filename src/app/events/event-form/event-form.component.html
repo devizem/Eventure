@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Create/Edit
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" *ngIf="event || !eventId, else loading">
+      <ion-list>
+        <ion-item>
+          <ion-label for="title-name">Name</ion-label>
+          <input formControlName="name">
+        </ion-item>
+        <ion-item>
+          <ion-label for="description">Description</ion-label>
+          <textarea formControlName="description"></textarea>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="block" color="success" type="submit" [disabled]="!eventForm.valid || isLoading">Submit</ion-button>
+    </form>
+  </div>
+</ion-content>
+<ng-template #loading>Loading</ng-template>
