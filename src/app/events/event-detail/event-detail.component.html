@@ -1,43 +1,39 @@
-<ion-header [translucent]="true">
+<ion-content>
+  <div class="bg-image"></div>
+
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/events"></ion-back-button>
     </ion-buttons>
-    <ion-title>Eventure detail</ion-title>
+    <app-heading large bold slot="start">Eventure details</app-heading>
   </ion-toolbar>
-</ion-header>
 
-<ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-card *ngIf="event$ | async as event; else loading">
-        <ng-container *ngIf="event !== null; else empty">
-          <ion-card-header>
-            <ion-card-subtitle>{{ event.id }}</ion-card-subtitle>
-            <ion-card-title>{{ event.name }}</ion-card-title>
-          </ion-card-header>
-          <!-- <img src="https://media.engenhariaradio.pt/2019/06/mno_balao_sao_Joao.jpg"/> -->
-          <ion-card-content>
-            <p>
-              {{ event.description }}
-            </p>
-          </ion-card-content>
-        </ng-container>
-      </ion-card>
-    </ion-row>
-    <ion-row>
-      <ion-col size="8">
-        <ion-button (click)="editEvent()" expand="block" color="success"
-          >Edit</ion-button
-        >
-      </ion-col>
-      <ion-col size="4">
-        <ion-button (click)="deleteEvent()" expand="block" color="success"
-          >Delete</ion-button
-        >
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ng-container *ngIf="event$ | async as event; else loading">
+    <div class="page-container" fullscreen="true">
+      <div></div>
+      <div class="column">
+        <app-heading class="title" large bold>{{ event.name }}</app-heading>
+        <div class="stats height-margin-2">
+          <div class="stat">12321</div>
+          <div class="stat">AAAA</div>
+        </div>
+        <div class="description">{{ event.description }}</div>
+
+        <ion-row>
+          <ion-col size="8">
+            <ion-button (click)="editEvent()" expand="block" color="success"
+              >Edit</ion-button
+            >
+          </ion-col>
+          <ion-col size="4">
+            <ion-button (click)="deleteEvent()" expand="block" color="success"
+              >Delete</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+  </ng-container>
 </ion-content>
 
 <ng-template #loading>

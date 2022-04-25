@@ -1,3 +1,90 @@
-ion-card {
+:host {
+    --background-image: '';
+}
+
+.bg-image {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: var(--background-image);
+    position: absolute;
+    opacity: 1;
+    height: 100%;
     width: 100%;
+    top: 0;
+    left: 0;
+}
+
+ion-toolbar {
+    --background: transparent;
+    --ion-toolbar-color: var(--ion-color-light);
+}
+
+.page-container {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: space-between;
+    color: black;
+    .title,
+    .description,
+    .stats {
+        opacity: 0;
+    }
+    .title, .stats {
+        animation: 1s slidein-right forwards;
+    }
+    .description {
+        animation: 1s description-slide forwards;
+        animation-delay: .3s;
+    }
+    .stats {
+        display: flex;
+        flex-direction: row;
+        .stat {
+            app-text {
+                text-transform: uppercase;
+                display: flex;
+                align-items: center;
+                ion-icon {
+                    margin-right: 5px;
+                }
+            }
+        }
+        .stat:not(:last-child) {
+            margin-right: 20px;
+        }
+    }
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+@keyframes slidein-right {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes description-slide {
+    0% {
+        transform: translateX(50%);
+        opacity: 0;
+       
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }

@@ -1,0 +1,12 @@
+.swiper-slide{
+    width: 274px;
+    height: 550px;
+    display: flex;
+    align-items: center;
+}
+
+.swiper-slide:not(.swiper-slide-active) {
+    app-card {
+        --card-height: 400px;
+    }
+}

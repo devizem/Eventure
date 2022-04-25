@@ -1,0 +1,7 @@
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div #slides class="swiper-slide" *ngFor="let event of events">
+            <app-card  [event]="event" routerLink="/events/detail/{{ event.id }}"></app-card>
+        </div>
+    </div>
+</div>

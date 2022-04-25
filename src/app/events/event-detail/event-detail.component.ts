@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { delay, tap } from 'rxjs/operators';
@@ -15,13 +15,17 @@ import { Observable } from 'rxjs';
 export class EventDetailComponent implements OnInit {
   event$: Observable<Eventure>;
   event: Eventure;
+  hostEl: HTMLElement;
 
   constructor(
+    private element: ElementRef,
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventService,
     private modalCtrl: ModalController
-  ) {}
+  ) {
+    this.hostEl = this.element.nativeElement;
+  }
 
   ngOnInit() {
     this.route.params.subscribe({
@@ -29,10 +33,11 @@ export class EventDetailComponent implements OnInit {
         this.event$ = this.eventService.getById(prop.id).pipe(
           tap((res) => {
             this.event = res;
+            this.setBackgroundImage(res.picture);
           })
         );
-      },
-    });
+      }
+    })
   }
 
   async editEvent() {
@@ -50,5 +55,9 @@ export class EventDetailComponent implements OnInit {
   async deleteEvent() {
     await this.eventService.delete(this.event.id);
     this.router.navigate(['/events']);
+  }
+
+  private setBackgroundImage(url: string) {
+    this.hostEl.style.setProperty('--background-image', `url(${url})`);
   }
 }
