@@ -64,7 +64,7 @@
   },
   "description": "An Ionic project",
   "lint-staged": {
-    "*.js": "eslint --cache --fix",
-    "*.{js,css,md}": "prettier --write"
+    "*.ts": "eslint --cache --fix",
+    "*.{ts,scss,html, md}": "prettier --write"
   }
 }
