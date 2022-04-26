@@ -11,7 +11,7 @@ import { EventService } from '../shared/services';
 })
 export class EventFormComponent implements OnInit {
 
-  @Input() private event?: Eventure;
+  @Input() event?: Eventure;
 
   isCreateMode = true;
   isLoading = false;
