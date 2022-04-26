@@ -19,11 +19,27 @@ Eventure ---(features)--- CRUD events
 |-------------------- Filter by category and labels
 |-------------------- Set popularity rating
 |-------------------- Manage "save" list
-|-------------------------- auth user
+|------------------------ auth user
 |-------------------- Notifications (web)push/mail/sms
 
 ## Why
 
 ## How it works
 
+
+## MVP
+
+- CRUD events
+- Upload cover img
+- Search by category
+
 ## Backlog
+
+- Upload event.pctures
+- Analytics
+
+## Wishlist
+
+- Add comments
+- Add replies
+- Add reactions
