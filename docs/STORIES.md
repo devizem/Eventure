@@ -30,12 +30,13 @@ Eventure ---(features)--- CRUD events
 ## MVP
 
 - CRUD events
-- Upload cover img
+- #21 Upload cover img => #22 Update model
+- #23 Local restricted Create/Update
 - Search by category
 
 ## Backlog
 
-- Upload event.pctures
+- Upload event.pictures
 - Analytics
 
 ## Wishlist
@@ -43,3 +44,4 @@ Eventure ---(features)--- CRUD events
 - Add comments
 - Add replies
 - Add reactions
+- Use [google-places-autocomplete](https://www.npmjs.com/package/ngx-google-places-autocomplete) to set location

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { delay } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 import { Eventure } from '../event.model';
 import { EventService } from '../shared/services';
 import { EventFormComponent } from '../event-form/event-form.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-event-detail',
@@ -12,27 +13,35 @@ import { EventFormComponent } from '../event-form/event-form.component';
   styleUrls: ['./event-detail.component.scss'],
 })
 export class EventDetailComponent implements OnInit {
+  event$: Observable<Eventure>;
   event: Eventure;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventService,
     private modalCtrl: ModalController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe({
-      next: async (prop: Params) => {
-        this.event = await this.eventService.getById(prop.id);
+      next: (prop: Params) => {
+        this.event$ = this.eventService.getById(prop.id).pipe(
+          tap((res) => {
+            this.event = res;
+          })
+        );
       },
     });
   }
 
   async editEvent() {
-    if (!this.event) return
+    if (!this.event) {
+      return;
+    }
     const modal = await this.modalCtrl.create({
       component: EventFormComponent,
-      componentProps: { event: this.event }
+      componentProps: { event: this.event },
     });
 
     return await modal.present();

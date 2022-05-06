@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { EventService } from '../shared/services';
+import { EventMockService } from '../shared/services/event-mock.service';
 
 import { EventListComponent } from './event-list.component';
 
@@ -9,8 +11,9 @@ describe('EventListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventListComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [EventListComponent],
+      imports: [IonicModule.forRoot()],
+      providers: [{ provide: EventService, useValue: EventMockService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(EventListComponent);
