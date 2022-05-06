@@ -9,11 +9,7 @@
 
 <ion-content>
   <div class="container">
-    <form
-      [formGroup]="eventForm"
-      (ngSubmit)="onSubmit()"
-      *ngIf="event; else loading"
-    >
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
       <ion-list>
         <ion-item>
           <ion-label for="title-name">Name</ion-label>
@@ -34,4 +30,3 @@
     </form>
   </div>
 </ion-content>
-<ng-template #loading>Loading</ng-template>

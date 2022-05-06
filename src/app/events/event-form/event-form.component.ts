@@ -10,20 +10,15 @@ import { EventService } from '../shared/services';
   styleUrls: ['./event-form.component.scss'],
 })
 export class EventFormComponent implements OnInit {
-
   @Input() event?: Eventure;
 
   isCreateMode = true;
   isLoading = false;
 
   eventForm = this.formBuilder.group({
-    name: ['', [
-      Validators.required
-    ]],
-    description: ['', [
-      Validators.required
-    ]]
-  })
+    name: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+  });
 
   constructor(
     private modalCtrl: ModalController,
@@ -36,8 +31,8 @@ export class EventFormComponent implements OnInit {
 
     if (!this.isCreateMode) {
       this.eventForm.patchValue({
-        ...this.event
-      })
+        ...this.event,
+      });
     }
   }
 
@@ -47,11 +42,14 @@ export class EventFormComponent implements OnInit {
       if (!this.isCreateMode) {
         await this.eventService.update(this.event.id, this.eventForm.value);
       } else {
-        const uid = Date.now().toString(); //temporary unique Id
-        await this.eventService.create(new Eventure({ id: uid, ...this.eventForm.value }));
+        await this.eventService.create({
+          ...new Eventure(this.eventForm.value),
+        });
       }
       this.dismissModal();
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
     this.isLoading = false;
   }
 

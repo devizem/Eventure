@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { EventMock } from '../../event-mock';
 import { Eventure } from '../../event.model';
 import { delay } from 'rxjs/operators';
@@ -21,29 +21,33 @@ export class EventMockService {
   }
 
   create(event: Eventure): Promise<any> {
+    if (!event.hasOwnProperty('id')) {
+      event.id = Date.now().toString();
+    }
     this.data.push(event);
     this.events.next(this.data);
 
     return Promise.resolve();
   }
 
-  getById(id: string): Promise<Eventure> {
-    let eventsKeyById = keyBy(this.data, 'id');
+  getById(id: string): Observable<Eventure> {
+    const eventsKeyById = keyBy(this.data, 'id');
     const event = eventsKeyById[id] || null;
-    return new Promise((resolve) => setTimeout(() => resolve(event), 2000));
+
+    return of(event);
   }
 
   update(id: string, data: Partial<Eventure>): Promise<void> {
-    let eventsKeyById = keyBy(this.data, 'id');
+    const eventsKeyById = keyBy(this.data, 'id');
     eventsKeyById[id] = { ...eventsKeyById[id], ...data };
     this.data = Object.values(eventsKeyById);
     this.events.next(this.data);
 
-    return new Promise((resolve) => setTimeout(() => resolve(), 3000));
+    return new Promise((resolve) => setTimeout(() => resolve(), 2000));
   }
 
   delete(id: string): Promise<void> {
-    let eventsKeyById = keyBy(this.data, 'id');
+    const eventsKeyById = keyBy(this.data, 'id');
     delete eventsKeyById[id];
     this.data = Object.values(eventsKeyById);
     this.events.next(this.data);

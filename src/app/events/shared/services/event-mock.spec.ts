@@ -30,7 +30,7 @@ describe('EventMockService', () => {
     const name = 'Updated event';
     const id = '123';
     eventMockService.update(id, { name }).then((_) => {
-      eventMockService.getById(id).then((event) => {
+      eventMockService.getById(id).subscribe((event) => {
         expect(event.name === name).toBeTrue();
         done();
       });
@@ -42,7 +42,7 @@ describe('EventMockService', () => {
     const id = '123';
     eventMockService.update(id, { name }).then((_) => {
       eventMockService.data$.subscribe((events) => {
-        let eventsKeyById = keyBy(events, 'id');
+        const eventsKeyById = keyBy(events, 'id');
         expect(eventsKeyById[id].name === name).toBeTrue();
         done();
       });
@@ -52,7 +52,7 @@ describe('EventMockService', () => {
   it('#delete should delete event on data store', (done: DoneFn) => {
     const id = '123';
     eventMockService.delete(id).then((_) => {
-      eventMockService.getById(id).then((event) => {
+      eventMockService.getById(id).subscribe((event) => {
         expect(event === null).toBeTrue();
         done();
       });
@@ -63,7 +63,7 @@ describe('EventMockService', () => {
     const id = '123';
     eventMockService.delete(id).then((_) => {
       eventMockService.data$.subscribe((events) => {
-        let eventsKeyById = keyBy(events, 'id');
+        const eventsKeyById = keyBy(events, 'id');
         expect(eventsKeyById[id] === undefined).toBeTrue();
         done();
       });
@@ -72,7 +72,7 @@ describe('EventMockService', () => {
 
   it('#getById return null if item not exists', (done: DoneFn) => {
     const id = '129';
-    eventMockService.getById(id).then(res => {
+    eventMockService.getById(id).subscribe((res) => {
       expect(res === null).toBeTrue();
       done();
     });

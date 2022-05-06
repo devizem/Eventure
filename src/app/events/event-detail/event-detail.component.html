@@ -10,7 +10,7 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-card *ngIf="event !== undefined; else loading">
+      <ion-card *ngIf="event$ | async as event; else loading">
         <ng-container *ngIf="event !== null; else empty">
           <ion-card-header>
             <ion-card-subtitle>{{ event.id }}</ion-card-subtitle>
@@ -27,10 +27,14 @@
     </ion-row>
     <ion-row>
       <ion-col size="8">
-        <ion-button (click)="editEvent()" expand="block" color="success">Edit</ion-button>
+        <ion-button (click)="editEvent()" expand="block" color="success"
+          >Edit</ion-button
+        >
       </ion-col>
       <ion-col size="4">
-        <ion-button (click)="deleteEvent()" expand="block" color="success">Delete</ion-button>
+        <ion-button (click)="deleteEvent()" expand="block" color="success"
+          >Delete</ion-button
+        >
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -41,13 +45,15 @@
     <ng-container>
       <ion-card-header>
         <h1>
-          <ion-skeleton-text animated style="height: 2rem;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="height: 2rem"></ion-skeleton-text>
         </h1>
         <h2>
           <ion-skeleton-text animated></ion-skeleton-text>
         </h2>
       </ion-card-header>
-      <ion-skeleton-text style="height: 200px; margin: auto; width: 200px"></ion-skeleton-text>
+      <ion-skeleton-text
+        style="height: 200px; margin: auto; width: 200px"
+      ></ion-skeleton-text>
       <ion-card-content>
         <p>
           <ion-skeleton-text animated></ion-skeleton-text>
