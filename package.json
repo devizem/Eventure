@@ -24,7 +24,7 @@
     "@angular/router": "~13.2.2",
     "@ionic/angular": "^6.1.2",
     "lodash": "^4.17.21",
-    "rxjs": "~6.6.0",
+    "rxjs": "~7.5.5",
     "swiper": "^8.1.4",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
