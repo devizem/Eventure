@@ -40,7 +40,6 @@ export class EventDetailComponent implements OnInit {
         );
       },
     });
-    console.log(this.translate);
   }
 
   async editEvent() {
