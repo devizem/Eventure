@@ -68,7 +68,7 @@ Update your `package.json` if necessary, `lint-staged` entry should looks:
 ```
   "lint-staged": {
     "*.ts": "eslint --cache --fix",
-    "*.{ts,css,md}": "prettier --write"
+    "*.{ts,scss,css,md}": "prettier --write"
   }
 ```
 
