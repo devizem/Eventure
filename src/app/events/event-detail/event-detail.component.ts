@@ -24,7 +24,7 @@ export class EventDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private eventService: EventService,
     private modalCtrl: ModalController,
-    private translate: TranslateService
+    public translate: TranslateService
   ) {
     this.hostEl = this.element.nativeElement;
   }
