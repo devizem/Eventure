@@ -6,6 +6,7 @@ import { Eventure } from '../event.model';
 import { EventService } from '../shared/services';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-detail',
@@ -22,7 +23,8 @@ export class EventDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private translate: TranslateService
   ) {
     this.hostEl = this.element.nativeElement;
   }
@@ -36,8 +38,9 @@ export class EventDetailComponent implements OnInit {
             this.setBackgroundImage(res.picture);
           })
         );
-      }
-    })
+      },
+    });
+    console.log(this.translate);
   }
 
   async editEvent() {

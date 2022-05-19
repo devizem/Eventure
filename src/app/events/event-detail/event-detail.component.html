@@ -10,7 +10,6 @@
 
   <ng-container *ngIf="event$ | async as event; else loading">
     <div class="page-container" fullscreen="true">
-      <div></div>
       <div class="column">
         <app-heading class="title" large bold>{{ event.name }}</app-heading>
         <div class="stats height-margin-2">
@@ -21,18 +20,23 @@
 
         <ion-row>
           <ion-col size="8">
-            <ion-button (click)="editEvent()" expand="block" color="success"
-              >Edit</ion-button
-            >
+            <ion-button (click)="editEvent()" expand="block" color="success">{{'HOME.EDIT' | translate}}</ion-button>
           </ion-col>
           <ion-col size="4">
-            <ion-button (click)="deleteEvent()" expand="block" color="success"
-              >Delete</ion-button
-            >
+            <ion-button (click)="deleteEvent()" expand="block" color="success">{{'HOME.DELETE' | translate}}</ion-button>
           </ion-col>
         </ion-row>
+        <div class="translated-text">
+          <h2>{{'HOME.TITLE' | translate}}</h2>
+          <label for=""> {{'HOME.SELECT' | translate}}
+            <select #langselect (change)="translate.use(langselect.value)">
+              <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{lang}}</option>
+            </select>
+          </label>
+        </div>
       </div>
     </div>
+
   </ng-container>
 </ion-content>
 
@@ -47,9 +51,7 @@
           <ion-skeleton-text animated></ion-skeleton-text>
         </h2>
       </ion-card-header>
-      <ion-skeleton-text
-        style="height: 200px; margin: auto; width: 200px"
-      ></ion-skeleton-text>
+      <ion-skeleton-text style="height: 200px; margin: auto; width: 200px"></ion-skeleton-text>
       <ion-card-content>
         <p>
           <ion-skeleton-text animated></ion-skeleton-text>

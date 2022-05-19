@@ -10,7 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { customAnimation } from './animations/event-details-navegation';
+
+export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http);
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +32,14 @@ import { customAnimation } from './animations/event-details-navegation';
       // navAnimation: customAnimation,
     }),
     AppRoutingModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

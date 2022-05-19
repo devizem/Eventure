@@ -1,0 +1,9 @@
+{
+    "HOME": {
+        "TITLE": "Bonjour Angular",
+        "TEXT": "C'est une traduction",
+        "SELECT": "Choisir la langue",
+        "DELETE": "Supprimer",
+        "EDIT": "Modifier"
+    }
+} 
