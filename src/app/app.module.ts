@@ -10,12 +10,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import {
+  TranslateModule,
+  TranslateLoader,
+  TranslateStore,
+} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { customAnimation } from './animations/event-details-navegation';
 
-export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http);
+export const httpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http);
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,15 +38,19 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     }),
     AppRoutingModule,
     HttpClientModule,
-    TranslateModule.forRoot({
+    TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
         useFactory: httpLoaderFactory,
         deps: [HttpClient],
       },
+      isolate: true,
     }),
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    TranslateStore,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
