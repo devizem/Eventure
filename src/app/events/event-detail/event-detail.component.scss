@@ -1,90 +1,151 @@
 :host {
-    --background-image: '';
+  --background-image: '';
+}
+
+// Variable for the different options
+.after-content {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
 }
 
 .bg-image {
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: var(--background-image);
-    position: absolute;
-    opacity: 1;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: var(--background-image);
+  position: absolute;
+  opacity: 1;
+  height: 100%;
+  width: 100%;
+
+  // CHOOSE ONE
+  @mixin filter($option) {
+    @if $option == 1 {
+      // ------- Full window opacity -------
+      &::after {
+        @extend .after-content;
+        background-color: black;
+        opacity: 0.4;
+      }
+    }
+    @if $option == 2 {
+      // ------- Blur filter -------
+      filter: blur(5px);
+      &::after {
+        @extend .after-content;
+        background-color: black;
+        opacity: 0.2;
+      }
+    }
+    @if $option == 3 {
+      // ------- Color filter -------
+      &::after {
+        @extend .after-content;
+        background-color: green;
+        opacity: 0.4;
+      }
+    }
+    @if $option == 4 {
+      // ------- Radial filter -------
+      &::after {
+        @extend .after-content;
+        background: radial-gradient(
+          ellipse 120% 50% at 90% 40%,
+          transparent 60%,
+          rgb(0, 0, 0, 0.7) 85%,
+          rgb(black, 0.9)
+        );
+      }
+    }
+  }
+  // SELECT OPTION HERE
+  @include filter(4);
 }
 
 ion-toolbar {
-    --background: transparent;
-    --ion-toolbar-color: var(--ion-color-light);
+  --background: transparent;
+  --ion-toolbar-color: var(--ion-color-light);
 }
 
 .page-container {
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: space-between;
-    color: black;
-    .title,
-    .description,
-    .stats {
-        opacity: 0;
-    }
-    .title, .stats {
-        animation: 1s slidein-right forwards;
-    }
-    .description {
-        animation: 1s description-slide forwards;
-        animation-delay: .3s;
-    }
-    .stats {
-        display: flex;
-        flex-direction: row;
-        .stat {
-            app-text {
-                text-transform: uppercase;
-                display: flex;
-                align-items: center;
-                ion-icon {
-                    margin-right: 5px;
-                }
-            }
-        }
-        .stat:not(:last-child) {
-            margin-right: 20px;
-        }
-    }
-}
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  overflow: scroll;
 
-.column {
+  .column {
+    --container-padding: 20px;
+    display: grid;
+    padding: 0 var(--container-padding);
+    padding-top: var(--container-padding);
+    grid-template:
+      'a' calc(95vh - var(--container-padding))
+      'b';
+
+    .cover-text {
+      align-self: flex-end;
+    }
+  }
+
+  .title,
+  .description,
+  .stats,
+  .long-description {
+    opacity: 0;
+    color: var(--ion-color-light);
+  }
+  .title,
+  .stats {
+    animation: 1s slidein-right forwards;
+  }
+  .description,
+  .long-description {
+    animation: 1s description-slide forwards;
+    animation-delay: 0.3s;
+  }
+  .stats {
     display: flex;
-    flex-direction: column;
-    padding: 20px;
+    flex-direction: row;
+    .stat {
+      app-text {
+        text-transform: uppercase;
+        display: flex;
+        align-items: center;
+        ion-icon {
+          margin-right: 5px;
+        }
+      }
+    }
+    .stat:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
 }
 
 @keyframes slidein-right {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes description-slide {
-    0% {
-        transform: translateX(50%);
-        opacity: 0;
-       
-    }
+  0% {
+    transform: translateX(50%);
+    opacity: 0;
+  }
 
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

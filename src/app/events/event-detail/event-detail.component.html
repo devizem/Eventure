@@ -1,24 +1,52 @@
 <ion-content>
-  <div class="bg-image"></div>
+  <div class="bg-image" slot="fixed"></div>
 
-  <ion-toolbar>
+  <ion-toolbar #toolbar class="height-padding-1" slot="fixed">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/events"></ion-back-button>
     </ion-buttons>
-    <app-heading large bold slot="start">Eventure details</app-heading>
+    <app-heading large bold class="left-padding-3">Details</app-heading>
   </ion-toolbar>
 
   <ng-container *ngIf="event$ | async as event; else loading">
-    <div class="page-container" fullscreen="true">
-      <div></div>
+    <div slot="fixed" class="page-container" fullscreen="false">
       <div class="column">
-        <app-heading class="title" large bold>{{ event.name }}</app-heading>
-        <div class="stats height-margin-2">
-          <div class="stat">12321</div>
-          <div class="stat">AAAA</div>
+        <div class="cover-text height-margin-3">
+          <app-heading class="title" large bold>{{ event.name }}</app-heading>
+          <div class="stats height-margin-2">
+            <div class="stat">Starts: 06/01/2024</div>
+            <div class="stat">Location: International</div>
+          </div>
+          <div class="description">{{ event.description }}</div>
         </div>
-        <div class="description">{{ event.description }}</div>
-
+        <div class="detail-text">
+          <div class="long-description top-margin-3">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni
+            fugit dolorum autem debitis quia sapiente maxime, corporis dolore
+            voluptatem. Adipisci accusamus fugit minima vero aliquid. Modi
+            minima aliquam laboriosam quisquam fugit eum ipsam quia! Fuga
+            quisquam ratione cum nisi ipsa eum magnam amet ab, sed ipsum,
+            reprehenderit laboriosam modi, dolore deserunt ipsam numquam sit
+            velit neque illo quas quo odio quibusdam quam maxime? Quas, aut.
+            Quam dignissimos laudantium facilis consequatur laboriosam sit
+            aliquam incidunt amet excepturi, facere distinctio esse repudiandae.
+            Nulla, ullam molestias, eius magnam perferendis optio unde quidem
+            harum quas consequatur, facere accusamus praesentium. Ea, saepe,
+            dolorem nam labore facere modi ducimus ipsam, obcaecati deserunt
+            eaque recusandae voluptas. Molestiae repellendus accusantium
+            necessitatibus dignissimos suscipit cum voluptate labore temporibus
+            aperiam sequi porro optio totam nostrum vitae ducimus nisi commodi
+            cumque ipsa tempora, placeat sapiente illum id rem quam? Modi earum
+            quia, at voluptatibus error voluptas aliquid quibusdam ratione porro
+            doloribus nam. Commodi rem magnam optio similique iure mollitia
+            praesentium porro excepturi autem error ducimus officia dicta
+            tempore quaerat modi eum reprehenderit distinctio, unde tenetur
+            dolorem dolores at eos molestias? Temporibus voluptatem
+            necessitatibus doloribus sequi asperiores quod placeat delectus
+            nisi. Illum nemo deserunt suscipit esse nam animi. Architecto
+            repellat dolor animi.
+          </div>
+        </div>
         <ion-row>
           <ion-col size="8">
             <ion-button (click)="editEvent()" expand="block" color="success"
