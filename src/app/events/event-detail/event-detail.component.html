@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content [scrollEvents]="true" (ionScroll)="onScroll($event)">
   <div class="bg-image"></div>
 
   <ion-toolbar>
@@ -10,7 +10,6 @@
 
   <ng-container *ngIf="event$ | async as event; else loading">
     <div class="page-container" fullscreen="true">
-      <div></div>
       <div class="column">
         <app-heading class="title" large bold>{{ event.name }}</app-heading>
         <div class="stats height-margin-2">
