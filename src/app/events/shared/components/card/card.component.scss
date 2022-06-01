@@ -1,44 +1,53 @@
+@import 'src/theme/utils/mixins';
+
 :host {
-    --card-width: 270px;
-    --card-height: 485px;
-    --border-radius: 30px;
-    --background-image: '';
+  --card-width: min(80vw, 400px);
+  --border-radius: 30px;
+  --background-image: '';
+  --card-ratio: 4/3.2;
+
+  height: 100%;
+  transition: all 0.3s;
+
+  @include responsive-to(medium) {
+    --card-width: auto;
+  }
 }
 
 .card {
+  width: var(--card-width);
+  aspect-ratio: var(--card-ratio);
+  height: 100%;
+  border-radius: var(--border-radius);
+  background-size: cover;
+  background-image: var(--background-image);
+  background-position: center center;
+  color: var(--ion-color-light);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  .inner-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: center;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(0deg, black, transparent 30%);
+  }
+
+  &:after {
+    content: '';
+    background-color: black;
+    background-position: center bottom;
+    filter: blur(30px);
+    position: absolute;
+    bottom: 30px;
+    left: 0px;
+    height: 50px;
+    z-index: -1;
     width: var(--card-width);
-    height: var(--card-height);
-    border-radius: var(--border-radius);
-    background-size: cover;
-    background-image: var(--background-image);
-    background-position: center center;
-    transition: all .3s;
-    color: var(--ion-color-light);
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-
-    .inner-card {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        text-align: center;
-        position: relative;
-        height: 100%;
-        width: 100%;
-        background: linear-gradient(0deg, black, transparent 30%);
-    }
-
-    &:after {
-        content: '';
-        background-image: var(--background-image);
-        background-position: center bottom;
-        filter: blur(30px);
-        position: absolute;
-        bottom: -30px;
-        left: 0px;
-        height: 150px;
-        z-index: -1;
-        width: var(--card-width);
-        opacity: 0.5;
-    }
+    opacity: 0.5;
+  }
 }

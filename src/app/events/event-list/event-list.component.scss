@@ -14,3 +14,24 @@
     content: '';
   }
 }
+
+ion-thumbnail {
+  --size: 100px;
+  width: var(--size);
+  height: var(--size);
+}
+
+.more-events {
+  margin: 20px;
+}
+
+.horizontal-line {
+  display: block;
+  height: 1px;
+  background-color: var(--ion-color-light-contrast);
+}
+
+app-heading.secondary {
+  display: block;
+  padding: 10px 20px;
+}

@@ -33,11 +33,23 @@ export class EventDetailComponent implements OnInit {
         this.event$ = this.eventService.getById(prop.id).pipe(
           tap((res) => {
             this.event = res;
-            this.setBackgroundImage(res.picture);
+            this.hostEl.style.setProperty(
+              '--background-image',
+              `url(${res.picture})`
+            );
           })
         );
       },
     });
+  }
+
+  onScroll(event) {
+    const hostHeight = this.hostEl.clientHeight;
+    const opacity = (event.detail.scrollTop * 1) / (hostHeight / 2.5);
+    this.hostEl.style.setProperty(
+      '--dynamic-opacity',
+      opacity > 0.85 ? '0.85' : opacity.toString()
+    );
   }
 
   async editEvent() {
@@ -55,9 +67,5 @@ export class EventDetailComponent implements OnInit {
   async deleteEvent() {
     await this.eventService.delete(this.event.id);
     this.router.navigate(['/events']);
-  }
-
-  private setBackgroundImage(url: string) {
-    this.hostEl.style.setProperty('--background-image', `url(${url})`);
   }
 }

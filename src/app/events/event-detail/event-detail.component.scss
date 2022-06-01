@@ -1,90 +1,127 @@
+@mixin dynamic-radial-gradient($base-opacity...) {
+  $background-color: var(ion-background);
+  background: radial-gradient(
+    ellipse 110% clamp(30vh, 50vw, 100vh) at 70% 17vh,
+    rgb($background-color, calc(var(--dynamic-opacity) + nth($base-opacity, 1)))
+      35%,
+    rgb(
+      $background-color,
+      calc(var(--dynamic-opacity) + nth($base-opacity, 2))
+    ),
+    $background-color
+  );
+}
 :host {
-    --background-image: '';
+  --background-image: '';
+  --dynamic-opacity: 0;
 }
 
 .bg-image {
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: var(--background-image);
-    position: absolute;
-    opacity: 1;
+  z-index: -1;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: var(--background-image);
+  position: fixed;
+  opacity: 1;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+
+  &::after {
+    content: '';
+    display: block;
     height: 100%;
     width: 100%;
+    position: absolute;
     top: 0;
     left: 0;
+    @include dynamic-radial-gradient(0, 0.8);
+  }
 }
 
 ion-toolbar {
-    --background: transparent;
-    --ion-toolbar-color: var(--ion-color-light);
+  --background: transparent;
+  --ion-toolbar-color: var(--ion-text-color);
 }
 
 .page-container {
-    z-index: 1;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-between;
+  color: var(--ion-text-color);
+  height: 100%;
+  .title,
+  .description,
+  .stats {
+    opacity: 0;
+  }
+  .title,
+  .stats {
+    animation: 1s slidein-right forwards;
+  }
+  .description {
+    animation: 1s description-slide forwards;
+    animation-delay: 0.3s;
+    font-size: 1.2rem;
+  }
+  .stats {
     display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: space-between;
-    color: black;
-    .title,
-    .description,
-    .stats {
-        opacity: 0;
-    }
-    .title, .stats {
-        animation: 1s slidein-right forwards;
-    }
-    .description {
-        animation: 1s description-slide forwards;
-        animation-delay: .3s;
-    }
-    .stats {
+    flex-direction: row;
+    .stat {
+      app-text {
+        text-transform: uppercase;
         display: flex;
-        flex-direction: row;
-        .stat {
-            app-text {
-                text-transform: uppercase;
-                display: flex;
-                align-items: center;
-                ion-icon {
-                    margin-right: 5px;
-                }
-            }
+        align-items: center;
+        ion-icon {
+          margin-right: 5px;
         }
-        .stat:not(:last-child) {
-            margin-right: 20px;
-        }
+      }
     }
+    .stat:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
 }
 
 .column {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  height: 30vh;
+
+  .title {
+    padding-top: clamp(30vh, 50vw, 70vh);
+  }
+  .button-native {
+    opacity: 1 !important;
+  }
 }
 
 @keyframes slidein-right {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes description-slide {
-    0% {
-        transform: translateX(50%);
-        opacity: 0;
-       
-    }
+  0% {
+    transform: translateX(50%);
+    opacity: 0;
+  }
 
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

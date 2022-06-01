@@ -8,7 +8,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { Eventure } from 'src/app/events/event.model';
-import Swiper, { SwiperOptions } from 'swiper';
+import Swiper, { SwiperOptions, Navigation } from 'swiper';
 
 @Component({
   selector: 'app-card-carousel',
@@ -23,12 +23,23 @@ export class CardCarouselComponent implements OnInit, AfterViewInit {
   config: SwiperOptions = {
     centeredSlides: true,
     slidesPerView: 'auto',
+    slideToClickedSlide: true,
     spaceBetween: 20,
+    breakpoints: {
+      768: {
+        spaceBetween: 10,
+      },
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
   };
 
   constructor() {}
 
   ngOnInit() {
+    Swiper.use([Navigation]);
     this.swiper = new Swiper('.swiper-container', this.config);
   }
 
