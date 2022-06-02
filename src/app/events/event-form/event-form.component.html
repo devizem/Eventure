@@ -12,13 +12,30 @@
     <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
       <ion-list>
         <ion-item>
-          <ion-label for="title-name">Name</ion-label>
+          <ion-label for="name">Name</ion-label>
           <input formControlName="name" />
+        </ion-item>
+        <ion-item>
+          <ion-label for="picture">Picture</ion-label>
+          <input formControlName="picture" />
         </ion-item>
         <ion-item>
           <ion-label for="description">Description</ion-label>
           <textarea formControlName="description"></textarea>
         </ion-item>
+        <ion-item>
+          <img
+            [src]="eventForm.value.picture | getDownloadUrl | async"
+            *ngIf="eventForm.value.picture"
+            width="200px"
+          />
+          <input type="file" (change)="onFileSelected($event)" />
+        </ion-item>
+        <ion-progress-bar
+          [value]="uploadProgress"
+          *ngIf="!!uploadProgress"
+        ></ion-progress-bar>
+        <p>{{ eventForm.value | json }}</p>
       </ion-list>
       <ion-button
         expand="block"

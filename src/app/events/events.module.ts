@@ -10,6 +10,7 @@ import { CardComponent } from './shared/components/card/card.component';
 import { SwiperModule } from 'swiper/angular';
 import { IonicModule } from '@ionic/angular';
 import { EventFormComponent } from './event-form/event-form.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { EventFormComponent } from './event-form/event-form.component';
     IonicModule,
     SwiperModule,
     ReactiveFormsModule,
+    SharedModule,
   ],
 })
 export class EventsModule {}
