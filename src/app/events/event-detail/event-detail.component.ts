@@ -44,19 +44,11 @@ export class EventDetailComponent implements OnInit {
   }
 
   onScroll(event) {
-<<<<<<< HEAD
     const hostHeight = this.hostEl.clientHeight;
     const opacity = (event.detail.scrollTop * 1) / (hostHeight / 2.5);
     this.hostEl.style.setProperty(
       '--opacity',
       opacity > 0.85 ? '0.85' : opacity.toString()
-=======
-    const opac = event.detail.scrollTop * 0.004;
-
-    this.hostEl.style.setProperty(
-      '--opacity',
-      opac > 0.85 ? '0.85' : opac.toString()
->>>>>>> 113905e (refactor: background image with dynamic opacity)
     );
   }
 
