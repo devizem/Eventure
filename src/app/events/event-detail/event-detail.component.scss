@@ -1,18 +1,23 @@
 @mixin dynamic-radial-gradient($base-opacity...) {
-  $background-colour: #393a39;
+  $background-color: #393a39;
   background: radial-gradient(
-    ellipse 110% 250px at 70% 17vh,
-    rgb($background-colour, calc(var(--opacity) + nth($base-opacity, 1))) 65%,
-    rgb($background-colour, calc(var(--opacity) + nth($base-opacity, 2))),
-    $background-colour
+    ellipse 110% clamp(30vh, 50vw, 100vh) at 70% 17vh,
+    rgb($background-color, calc(var(--dynamic-opacity) + nth($base-opacity, 1)))
+      35%,
+    rgb(
+      $background-color,
+      calc(var(--dynamic-opacity) + nth($base-opacity, 2))
+    ),
+    $background-color
   );
 }
 :host {
   --background-image: '';
-  --opacity: 0;
+  --dynamic-opacity: 0;
 }
 
 .bg-image {
+  z-index: -1;
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -47,7 +52,8 @@ ion-toolbar {
   flex-direction: column;
   align-content: center;
   justify-content: space-between;
-  color: black;
+  color: var(--ion-color-light);
+  height: 100%;
   .title,
   .description,
   .stats {
@@ -60,7 +66,7 @@ ion-toolbar {
   .description {
     animation: 1s description-slide forwards;
     animation-delay: 0.3s;
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
   .stats {
     display: flex;
@@ -84,8 +90,16 @@ ion-toolbar {
 .column {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   padding: 20px;
-  margin-top: 30vh;
+  height: 30vh;
+
+  .title {
+    padding-top: clamp(30vh, 50vw, 70vh);
+  }
+  .button-native {
+    opacity: 1 !important;
+  }
 }
 
 @keyframes slidein-right {

@@ -47,7 +47,7 @@ export class EventDetailComponent implements OnInit {
     const hostHeight = this.hostEl.clientHeight;
     const opacity = (event.detail.scrollTop * 1) / (hostHeight / 2.5);
     this.hostEl.style.setProperty(
-      '--opacity',
+      '--dynamic-opacity',
       opacity > 0.85 ? '0.85' : opacity.toString()
     );
   }
