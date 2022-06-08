@@ -12,9 +12,12 @@ export class CardComponent implements OnInit {
   constructor(private element: ElementRef) {}
 
   ngOnInit() {
-    this.element.nativeElement.style.setProperty(
-      '--background-image',
-      `url(${this.event.picture}`
+    const cardStyles = {
+      'background-image': `url(${this.event.picture}`,
+    };
+
+    Object.entries(cardStyles).forEach((entry) =>
+      this.element.nativeElement.style.setProperty('--' + entry[0], entry[1])
     );
   }
 }

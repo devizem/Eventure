@@ -6,7 +6,11 @@
 
   <ng-container *ngIf="events$ | async as events; else loading">
     <section *ngIf="events.length > 0; else empty">
-      <app-card-carousel [events]="events" ></app-card-carousel>
+      <app-card-carousel [events]="events"></app-card-carousel>
+    </section>
+    <div class="horizontal-line width-margin-2 height-margin-1"></div>
+    <section class="more-events">
+      <app-heading large bold>More</app-heading>
     </section>
   </ng-container>
 
