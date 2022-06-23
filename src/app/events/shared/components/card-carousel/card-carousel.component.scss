@@ -1,12 +1,29 @@
+@import 'src/theme/utils/mixins';
+
+:host {
+  --carousel-height: 35vh;
+  --active-slide-ratio: 4/3;
+
+  @include responsive-to(medium) {
+    --carousel-height: 45vh;
+    --active-slide-ratio: 4/3;
+  }
+}
+
 .swiper-slide {
   width: fit-content;
-  height: 35vh;
+  height: var(--carousel-height);
   display: flex;
   align-items: center;
 }
 
 .swiper-slide:not(.swiper-slide-active) {
   app-card {
-    --card-ratio: 4/3;
+    --card-ratio: var(--active-slide-ratio);
+
+    @include responsive-to(medium) {
+      height: var(--carousel-height);
+      --card-ratio: var(--active-slide-ratio);
+    }
   }
 }

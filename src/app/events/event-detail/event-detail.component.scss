@@ -1,5 +1,6 @@
 @mixin dynamic-radial-gradient($base-opacity...) {
-  $background-color: #393a39;
+  // $background-color: #393a39;
+  $background-color: #181818;
   background: radial-gradient(
     ellipse 110% clamp(30vh, 50vw, 100vh) at 70% 17vh,
     rgb($background-color, calc(var(--dynamic-opacity) + nth($base-opacity, 1)))
