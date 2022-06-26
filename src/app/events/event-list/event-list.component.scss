@@ -1,3 +1,9 @@
+ion-thumbnail {
+  --size: 100px;
+  width: var(--size);
+  height: var(--size);
+}
+
 .more-events {
   margin: 20px;
 }
