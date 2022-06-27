@@ -26,14 +26,6 @@
             <ion-button (click)="deleteEvent()" expand="block" color="success">{{'DETAIL.DELETE' | translate}}</ion-button>
           </ion-col>
         </ion-row>
-        <div class="translated-text">
-          <h2>{{'DETAIL.TITLE' | translate}}</h2>
-          <label for=""> {{'DETAIL.SELECT' | translate}}
-            <select #langselect (change)="translate.use(langselect.value)">
-              <option *ngFor="let lang of translate.getLangs()" [selected]="lang === translate.currentLang" [value]="lang">{{lang}}</option>
-            </select>
-          </label>
-        </div>
       </div>
     </div>
 

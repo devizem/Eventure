@@ -1,8 +1,5 @@
 {
     "DETAIL": {
-        "TITLE": "Hello Angular",
-        "TEXT": "This is a translation",
-        "SELECT": "Select Language",
         "DELETE": "Delete",
         "EDIT": "Edit"
     }
