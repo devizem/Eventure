@@ -7,10 +7,12 @@ jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
+    # workaround for missing secret in fork PRs - see https://github.com/actions/checkout/issues/298
     steps:
       - uses: actions/checkout@v2
       - run: npm ci && npm run build:prod
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - if: github.event.pull_request.head.repo.full_name == github.repository
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_EVENTURE_C01C8 }}'
