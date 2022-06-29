@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import {
-  Firestore,
-  collectionData,
-  collection,
-  CollectionReference,
   addDoc,
-  DocumentReference,
+  collection,
+  collectionData,
+  CollectionReference,
+  deleteDoc,
   doc,
   docData,
+  DocumentReference,
+  Firestore,
+  setDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { deleteDoc, setDoc } from '@firebase/firestore';
+
 import { Observable } from 'rxjs';
 import { Eventure } from '../../event.model';
 
@@ -29,8 +31,12 @@ export class EventService {
     this.data$ = collectionData(this.eventsCollection, { idField: 'id' });
   }
 
-  create(event: Eventure): Promise<DocumentReference<Eventure>> {
+  add(event: Eventure): Promise<DocumentReference<Eventure>> {
     return addDoc(this.eventsCollection, event);
+  }
+
+  set(event: Eventure, docRef: DocumentReference): Promise<void> {
+    return setDoc(docRef, event);
   }
 
   getById(id: string): Observable<Eventure> {
