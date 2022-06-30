@@ -5,24 +5,23 @@
   --border-radius: 30px;
   --background-image: '';
   --card-ratio: 4/3.2;
-  --card-max-height: auto;
+
+  height: 100%;
+  transition: all 0.3s;
 
   @include responsive-to(medium) {
-    --card-width: 95vw;
-    --card-ratio: auto;
-    --card-max-height: 45vh;
+    --card-width: auto;
   }
 }
 
 .card {
   width: var(--card-width);
   aspect-ratio: var(--card-ratio);
-  height: var(--card-max-height);
+  height: 100%;
   border-radius: var(--border-radius);
   background-size: cover;
   background-image: var(--background-image);
   background-position: center center;
-  transition: all 0.3s;
   color: var(--ion-color-light);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.1);
   overflow: hidden;
