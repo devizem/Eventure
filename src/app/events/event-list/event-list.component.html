@@ -2,11 +2,14 @@
   <ion-toolbar class="padding-2">
     <app-heading large bold slot="start">Eventures</app-heading>
   </ion-toolbar>
-  <!-- <app-category-filter class="bottom-margin-3"></app-category-filter> -->
-
+  <ul id="categories">
+    <li *ngFor="let category of categories" (click)="selectCategory(category)">
+      {{ category }}
+    </li>
+  </ul>
   <ng-container *ngIf="events$ | async as events; else loading">
     <section *ngIf="events.length > 0; else empty">
-      <app-card-carousel [events]="events" ></app-card-carousel>
+      <app-card-carousel [events]="events"></app-card-carousel>
     </section>
   </ng-container>
 

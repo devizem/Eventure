@@ -36,8 +36,8 @@ export class EventDetailComponent implements OnInit {
             this.setBackgroundImage(res.picture);
           })
         );
-      }
-    })
+      },
+    });
   }
 
   async editEvent() {

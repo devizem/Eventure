@@ -5,7 +5,6 @@ import { Eventure } from '../event.model';
 import { ModalController } from '@ionic/angular';
 import { EventFormComponent } from '../event-form/event-form.component';
 
-
 @Component({
   selector: 'app-event-list',
   templateUrl: './event-list.component.html',
@@ -13,21 +12,26 @@ import { EventFormComponent } from '../event-form/event-form.component';
 })
 export class EventListComponent implements OnInit {
   events$: Observable<Eventure[]>;
+  categories = ['Religious Event', 'Fair', 'Dancing'];
 
   constructor(
-    private eventService: EventService, 
+    private eventService: EventService,
     private modalCtrl: ModalController
-    ) {}
+  ) {}
 
   ngOnInit() {
     this.events$ = this.eventService.data$;
+  }
+
+  selectCategory(category) {
+    this.eventService.filterByCategory(category);
   }
 
   async createEvent() {
     const modal = await this.modalCtrl.create({
       component: EventFormComponent,
     });
-  
+
     await modal.present();
   }
 }

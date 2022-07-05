@@ -9,30 +9,57 @@ import {
   docData,
   DocumentReference,
   Firestore,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
-import { Eventure } from '../../event.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { Events, Eventure } from '../../event.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  data$: Observable<Eventure[]>;
-  eventsCollection: CollectionReference<Eventure>;
+  eventsRef: CollectionReference<Eventure>;
+  categoryFilter$: BehaviorSubject<string | null>;
 
   constructor(private firestore: Firestore) {
-    this.eventsCollection = collection(
+    this.categoryFilter$ = new BehaviorSubject(null);
+    this.eventsRef = collection(
       firestore,
-      'events'
+      Events.COLLECTION
     ) as CollectionReference<Eventure>;
-    this.data$ = collectionData(this.eventsCollection, { idField: 'id' });
+  }
+
+  /**
+   * Complex compound queries in firebase V9
+   * https://stackoverflow.com/a/69605613/4982169
+   */
+  get data$(): Observable<Eventure[]> {
+    return this.categoryFilter$.pipe(
+      switchMap((category) => {
+        const conditions = [];
+
+        if (category !== null) {
+          conditions.push(where(Events.IndexField.CATEGORY, '==', category));
+        }
+
+        const filterQuery = query(this.eventsRef, ...conditions);
+
+        return collectionData(filterQuery, { idField: 'id' });
+      })
+    );
+  }
+
+  filterByCategory(category: string): void {
+    return this.categoryFilter$.next(category);
   }
 
   add(event: Eventure): Promise<DocumentReference<Eventure>> {
-    return addDoc(this.eventsCollection, event);
+    return addDoc(this.eventsRef, event);
   }
 
   set(event: Eventure, docRef: DocumentReference): Promise<void> {

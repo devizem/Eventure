@@ -1,0 +1,16 @@
+#categories {
+  text-align: center;
+  list-style: none;
+  margin-block: 0;
+  margin-inline: 0;
+  padding: 0;
+  li {
+    display: inline;
+  }
+  li::after {
+    content: ' | ';
+  }
+  li:last-child:after {
+    content: '';
+  }
+}
