@@ -15,6 +15,16 @@ import { customAnimation } from './animations/event-details-navegation';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { SharedModule } from './shared/shared.module';
 import { GetDownloadUrlPipe } from './shared/pipes';
+import {
+  TranslateLoader,
+  TranslateModule,
+  TranslateStore,
+} from '@ngx-translate/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export const httpLoaderFactory = (http: HttpClient) =>
+  new TranslateHttpLoader(http);
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,11 +48,21 @@ import { GetDownloadUrlPipe } from './shared/pipes';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
-    SharedModule,
+    // SharedModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient],
+      },
+      isolate: true,
+    }),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     GetDownloadUrlPipe,
+    TranslateStore,
   ],
   bootstrap: [AppComponent],
 })
