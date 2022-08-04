@@ -13,6 +13,8 @@ import { EventFormComponent } from '../event-form/event-form.component';
 export class EventListComponent implements OnInit {
   events$: Observable<Eventure[]>;
   categories = ['Religious Event', 'Fair', 'Dancing'];
+  tags = ['blueberry', 'beer', 'wildlife', 'saint'];
+  tagsArray = []; //temp name
 
   constructor(
     private eventService: EventService,
@@ -25,6 +27,16 @@ export class EventListComponent implements OnInit {
 
   selectCategory(category) {
     this.eventService.filterByCategory(category);
+  }
+
+  selectTag(tag: string): void {
+    if (this.tagsArray.includes(tag)) {
+      this.tagsArray.splice(this.tagsArray.indexOf(tag), 1);
+    } else {
+      this.tagsArray.push(tag);
+    }
+
+    this.eventService.filterByTags(this.tagsArray);
   }
 
   async createEvent() {

@@ -15,7 +15,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Events, Eventure } from '../../event.model';
 
@@ -25,9 +25,12 @@ import { Events, Eventure } from '../../event.model';
 export class EventService {
   eventsRef: CollectionReference<Eventure>;
   categoryFilter$: BehaviorSubject<string | null>;
+  tagsFilter$: BehaviorSubject<string[] | []>;
 
   constructor(private firestore: Firestore) {
     this.categoryFilter$ = new BehaviorSubject(null);
+    this.tagsFilter$ = new BehaviorSubject([]);
+
     this.eventsRef = collection(
       firestore,
       Events.COLLECTION
@@ -39,14 +42,21 @@ export class EventService {
    * https://stackoverflow.com/a/69605613/4982169
    */
   get data$(): Observable<Eventure[]> {
-    return this.categoryFilter$.pipe(
-      switchMap((category) => {
+    return combineLatest([this.categoryFilter$, this.tagsFilter$]).pipe(
+      switchMap(([category, tags]) => {
         const conditions = [];
 
         if (category !== null) {
           conditions.push(where(Events.IndexField.CATEGORY, '==', category));
         }
 
+        if (Array.isArray(tags) && !!tags.length) {
+          for (const tag of tags) {
+            conditions.push(
+              where(`${Events.IndexField.TAG}.${tag}`, '==', true)
+            );
+          }
+        }
         const filterQuery = query(this.eventsRef, ...conditions);
 
         return collectionData(filterQuery, { idField: 'id' });
@@ -56,6 +66,10 @@ export class EventService {
 
   filterByCategory(category: string): void {
     return this.categoryFilter$.next(category);
+  }
+
+  filterByTags(tags: string[]): void {
+    return this.tagsFilter$.next(tags);
   }
 
   add(event: Eventure): Promise<DocumentReference<Eventure>> {

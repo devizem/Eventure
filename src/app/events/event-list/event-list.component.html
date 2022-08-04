@@ -7,6 +7,11 @@
       {{ category }}
     </li>
   </ul>
+  <ul id="tags">
+    <li *ngFor="let tag of tags" (click)="selectTag(tag)">
+      {{ tag }}
+    </li>
+  </ul>
   <ng-container *ngIf="events$ | async as events; else loading">
     <section *ngIf="events.length > 0; else empty">
       <app-card-carousel [events]="events"></app-card-carousel>
