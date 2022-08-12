@@ -17,15 +17,7 @@
     <div class="horizontal-line width-margin-2 height-margin-1"></div>
     <section class="more-events" *ngIf="events.length > 0; else empty">
       <app-heading medium bold class="secondary">More</app-heading>
-      <ion-list *ngFor="let event of events">
-        <ion-item routerLink="/events/detail/{{ event.id }}">
-          <ion-thumbnail slot="start">
-            <ion-img [src]="event.picture"></ion-img>
-          </ion-thumbnail>
-          <h2>{{ event.name }}</h2>
-        </ion-item>
-      </ion-list>
-      <!-- <img src="{{event.picture}}" /> -->
+      <app-headline [events]="events"></app-headline>
     </section>
   </ng-container>
 

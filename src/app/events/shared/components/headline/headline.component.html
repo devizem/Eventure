@@ -1,0 +1,8 @@
+<ion-list *ngFor="let event of events">
+  <ion-item routerLink="/events/detail/{{ event.id }}">
+    <ion-thumbnail slot="start">
+      <ion-img [src]="event.picture | getDownloadUrl | async"></ion-img>
+    </ion-thumbnail>
+    <h2>{{ event.name }}</h2>
+  </ion-item>
+</ion-list>

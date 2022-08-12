@@ -11,6 +11,7 @@ import { SwiperModule } from 'swiper/angular';
 import { IonicModule } from '@ionic/angular';
 import { EventFormComponent } from './event-form/event-form.component';
 import { SharedModule } from '../shared/shared.module';
+import { HeadlineComponent } from './shared/components/headline/headline.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     HeadingComponent,
     CardCarouselComponent,
     CardComponent,
+    HeadlineComponent,
   ],
   imports: [
     CommonModule,
