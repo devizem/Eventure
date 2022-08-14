@@ -14,4 +14,8 @@
   li:last-child:after {
     content: '';
   }
+
+  .highlightTag {
+    color: red;
+  }
 }

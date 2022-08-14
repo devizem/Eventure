@@ -9,7 +9,9 @@
   </ul>
   <ul id="tags">
     <li *ngFor="let tag of tags" (click)="selectTag(tag)">
-      {{ tag }}
+      <span [ngClass]="selectedTags.includes(tag) ? 'highlightTag' : ''">{{
+        tag
+      }}</span>
     </li>
   </ul>
   <ng-container *ngIf="events$ | async as events; else loading">

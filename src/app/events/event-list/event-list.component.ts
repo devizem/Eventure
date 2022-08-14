@@ -14,7 +14,7 @@ export class EventListComponent implements OnInit {
   events$: Observable<Eventure[]>;
   categories = ['Religious Event', 'Fair', 'Dancing'];
   tags = ['blueberry', 'beer', 'wildlife', 'saint'];
-  tagsArray = []; //temp name
+  selectedTags = [];
 
   constructor(
     private eventService: EventService,
@@ -30,13 +30,12 @@ export class EventListComponent implements OnInit {
   }
 
   selectTag(tag: string): void {
-    if (this.tagsArray.includes(tag)) {
-      this.tagsArray.splice(this.tagsArray.indexOf(tag), 1);
+    if (this.selectedTags.includes(tag)) {
+      this.selectedTags.splice(this.selectedTags.indexOf(tag), 1);
     } else {
-      this.tagsArray.push(tag);
+      this.selectedTags.push(tag);
     }
-
-    this.eventService.filterByTags(this.tagsArray);
+    this.eventService.filterByTags(this.selectedTags);
   }
 
   async createEvent() {
