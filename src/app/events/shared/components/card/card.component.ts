@@ -19,6 +19,7 @@ export class CardComponent implements OnInit {
     const downloadUrl = await this.getDownloadUrlPipe.transform(
       this.event.picture
     );
+    console.log(downloadUrl);
     this.element.nativeElement.style.setProperty(
       '--background-image',
       `url(${downloadUrl}`

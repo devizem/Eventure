@@ -6,6 +6,7 @@ import { Eventure } from '../event.model';
 import { EventService } from '../shared/services';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { Observable } from 'rxjs';
+import { GetDownloadUrlPipe } from 'src/app/shared/pipes';
 
 @Component({
   selector: 'app-event-detail',
@@ -22,22 +23,38 @@ export class EventDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private getDownloadUrlPipe: GetDownloadUrlPipe
   ) {
     this.hostEl = this.element.nativeElement;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.route.params.subscribe({
       next: (prop: Params) => {
         this.event$ = this.eventService.getById(prop.id).pipe(
-          tap((res) => {
+          tap(async (res) => {
             this.event = res;
-            this.setBackgroundImage(res.picture);
+            const downloadUrl = await this.getDownloadUrlPipe.transform(
+              this.event.picture
+            );
+            this.hostEl.style.setProperty(
+              '--background-image',
+              `url(${downloadUrl})`
+            );
           })
         );
       },
     });
+  }
+
+  onScroll(event) {
+    const hostHeight = this.hostEl.clientHeight;
+    const opacity = (event.detail.scrollTop * 1) / (hostHeight / 2.5);
+    this.hostEl.style.setProperty(
+      '--dynamic-opacity',
+      opacity > 0.85 ? '0.85' : opacity.toString()
+    );
   }
 
   async editEvent() {
@@ -55,9 +72,5 @@ export class EventDetailComponent implements OnInit {
   async deleteEvent() {
     await this.eventService.delete(this.event.id);
     this.router.navigate(['/events']);
-  }
-
-  private setBackgroundImage(url: string) {
-    this.hostEl.style.setProperty('--background-image', `url(${url})`);
   }
 }

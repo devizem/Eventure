@@ -9,7 +9,15 @@
   </ul>
   <ng-container *ngIf="events$ | async as events; else loading">
     <section *ngIf="events.length > 0; else empty">
+      <app-heading medium bold class="secondary width-margin-2"
+        >Featured</app-heading
+      >
       <app-card-carousel [events]="events"></app-card-carousel>
+    </section>
+    <div class="horizontal-line width-margin-2 height-margin-1"></div>
+    <section class="more-events" *ngIf="events.length > 0; else empty">
+      <app-heading medium bold class="secondary">More</app-heading>
+      <app-headline [events]="events"></app-headline>
     </section>
   </ng-container>
 

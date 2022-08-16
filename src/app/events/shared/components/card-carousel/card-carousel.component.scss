@@ -1,12 +1,25 @@
-.swiper-slide{
-    width: 274px;
-    height: 550px;
-    display: flex;
-    align-items: center;
+@import 'src/theme/utils/mixins';
+
+:host {
+  --carousel-height: 35vh;
+  --active-slide-ratio: 4/3;
+
+  @include responsive-to(medium) {
+    --carousel-height: 38vh;
+  }
+}
+
+.swiper-slide {
+  width: fit-content;
+  height: var(--carousel-height);
+  display: flex;
+  align-items: center;
 }
 
 .swiper-slide:not(.swiper-slide-active) {
-    app-card {
-        --card-height: 400px;
+  app-card {
+    height: 90%;
+    @include responsive-to(medium) {
     }
+  }
 }

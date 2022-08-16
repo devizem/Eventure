@@ -1,24 +1,39 @@
+@import 'src/theme/utils/mixins';
+
 :host([large]) {
-    font-size: 32px;
+  font-size: 32px;
+
+  @include responsive-to(medium) {
+    font-size: 24px;
+  }
 }
 
 :host([medium]) {
-    font-size: 24px;
+  font-size: 24px;
+
+  @include responsive-to(medium) {
+    font-size: 20px;
+  }
 }
 
 :host([small]) {
-    font-size: 20px;
+  font-size: 20px;
+
+  @include responsive-to(medium) {
+    font-size: 16px;
+  }
 }
 
 :host([bold]) {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 @for $i from 0 through 12 {
-    :host([ellipsis-line-#{$i}]){
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: $i;
-        overflow: hidden;
-    }
+  :host([ellipsis-line-#{$i}]) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $i;
+    overflow: hidden;
+    color: var(--ion-color-primary-contrast);
+  }
 }
