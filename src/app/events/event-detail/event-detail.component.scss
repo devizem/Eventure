@@ -1,14 +1,11 @@
-@mixin dynamic-radial-gradient($base-opacity...) {
-  $background-color: var(ion-background);
+@import '../../../theme/variables.scss';
+
+@mixin dynamic-radial-gradient($color, $base-opacity...) {
   background: radial-gradient(
     ellipse 110% clamp(30vh, 50vw, 100vh) at 70% 17vh,
-    rgb($background-color, calc(var(--dynamic-opacity) + nth($base-opacity, 1)))
-      35%,
-    rgb(
-      $background-color,
-      calc(var(--dynamic-opacity) + nth($base-opacity, 2))
-    ),
-    $background-color
+    rgb($color, calc(var(--dynamic-opacity) + nth($base-opacity, 1))) 35%,
+    rgb($color, calc(var(--dynamic-opacity) + nth($base-opacity, 2))),
+    $color
   );
 }
 :host {
@@ -37,7 +34,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    @include dynamic-radial-gradient(0, 0.8);
+    // @include dynamic-radial-gradient(var(--ion-background-color), 0, 0.8, ); // Need a solution to choose different color opacity using include
+    @include dynamic-radial-gradient(black, 0, 0.8);
   }
 }
 

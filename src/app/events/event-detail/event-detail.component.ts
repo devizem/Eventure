@@ -6,6 +6,7 @@ import { Eventure } from '../event.model';
 import { EventService } from '../shared/services';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { Observable } from 'rxjs';
+import { GetDownloadUrlPipe } from 'src/app/shared/pipes';
 
 @Component({
   selector: 'app-event-detail',
@@ -22,20 +23,24 @@ export class EventDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private getDownloadUrlPipe: GetDownloadUrlPipe
   ) {
     this.hostEl = this.element.nativeElement;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.route.params.subscribe({
       next: (prop: Params) => {
         this.event$ = this.eventService.getById(prop.id).pipe(
-          tap((res) => {
+          tap(async (res) => {
             this.event = res;
+            const downloadUrl = await this.getDownloadUrlPipe.transform(
+              this.event.picture
+            );
             this.hostEl.style.setProperty(
               '--background-image',
-              `url(${res.picture})`
+              `url(${downloadUrl})`
             );
           })
         );
