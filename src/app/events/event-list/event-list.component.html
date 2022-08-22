@@ -7,6 +7,16 @@
       {{ category }}
     </li>
   </ul>
+  <ion-item-group style="display: flex; justify-content: center">
+    <ion-item>
+      <ion-label for="tag">Search:</ion-label>
+      <ion-input
+        type="text"
+        name="tag"
+        (change)="tagSearch($event.target.value)"
+      ></ion-input>
+    </ion-item>
+  </ion-item-group>
   <ul id="tags">
     <li *ngFor="let tag of tags" (click)="selectTag(tag)">
       <span [ngClass]="selectedTags.includes(tag) ? 'highlightTag' : ''">{{

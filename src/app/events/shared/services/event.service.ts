@@ -25,7 +25,7 @@ import { Events, Eventure } from '../../event.model';
 export class EventService {
   eventsRef: CollectionReference<Eventure>;
   categoryFilter$: BehaviorSubject<string | null>;
-  tagsFilter$: BehaviorSubject<string[] | []>;
+  tagsFilter$: BehaviorSubject<string[] | string>;
 
   constructor(private firestore: Firestore) {
     this.categoryFilter$ = new BehaviorSubject(null);
@@ -57,6 +57,14 @@ export class EventService {
             );
           }
         }
+
+        if (typeof tags === 'string' && tags !== '') {
+          const slugTag = tags.toLowerCase();
+          conditions.push(
+            where(`${Events.IndexField.TAG}.${slugTag}`, '==', true)
+          );
+        }
+
         const filterQuery = query(this.eventsRef, ...conditions);
 
         return collectionData(filterQuery, { idField: 'id' });
@@ -68,7 +76,7 @@ export class EventService {
     return this.categoryFilter$.next(category);
   }
 
-  filterByTags(tags: string[]): void {
+  filterByTags(tags: string[] | string): void {
     return this.tagsFilter$.next(tags);
   }
 
