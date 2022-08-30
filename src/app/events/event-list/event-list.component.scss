@@ -1,7 +1,8 @@
-#categories {
+#categories,
+#tags {
   text-align: center;
   list-style: none;
-  margin-block: 0;
+  margin-block: 0 20px;
   margin-inline: 0;
   padding: 0;
   li {
@@ -12,5 +13,9 @@
   }
   li:last-child:after {
     content: '';
+  }
+
+  .highlightTag {
+    color: red;
   }
 }
