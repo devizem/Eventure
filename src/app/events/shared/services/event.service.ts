@@ -8,9 +8,12 @@ import {
   doc,
   docData,
   DocumentReference,
+  FieldValue,
   Firestore,
   query,
+  serverTimestamp,
   setDoc,
+  Timestamp,
   updateDoc,
   where,
 } from '@angular/fire/firestore';
@@ -54,12 +57,23 @@ export class EventService {
     );
   }
 
+  /**
+   * Inspired by https://angularfirebase.com/lessons/firestore-advanced-usage-angularfire/#3-CRUD-Operations-with-Server-Timestamps
+   */
+  get timestamp(): FieldValue {
+    return serverTimestamp();
+  }
+
   filterByCategory(category: string): void {
     return this.categoryFilter$.next(category);
   }
 
   add(event: Eventure): Promise<DocumentReference<Eventure>> {
-    return addDoc(this.eventsRef, event);
+    return addDoc(this.eventsRef, {
+      ...event,
+      createdAt: this.timestamp,
+      modifiedAt: this.timestamp,
+    });
   }
 
   set(event: Eventure, docRef: DocumentReference): Promise<void> {
@@ -82,5 +96,9 @@ export class EventService {
     const eventDocRef = doc(this.firestore, `events/${id}`);
 
     return deleteDoc(eventDocRef);
+  }
+
+  protected timestampFromDate(ISOdate: string) {
+    return Timestamp.fromDate(new Date(ISOdate));
   }
 }
