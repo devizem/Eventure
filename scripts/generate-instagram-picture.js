@@ -14,7 +14,7 @@
  */
 
 const admin = require('../functions/node_modules/firebase-admin');
-const app = admin.initializeApp();
+admin.initializeApp();
 
 const { EventService } = require('../functions/lib/shared/data');
 
@@ -22,6 +22,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs-extra');
 const hbs = require('handlebars');
 const path = require('path');
+const imageToBase64 = require('image-to-base64');
 
 const args = process.argv.slice(2);
 
@@ -38,18 +39,24 @@ async function compileTpl(data) {
   }
 }
 
+async function convertToBase64(url) {
+  try {
+    const imageBase64 = await imageToBase64(url);
+    return imageBase64;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 (async () => {
   try {
-    const eventId = args?.[0] ?? undefined;
-    if (!eventId) {
-      throw 'An event id is required as argument';
-    }
-    console.log(eventId);
+       
+    const eventId = '0LIVlNHIoTtfJNuMBSfM'
 
     const documentSnapshot = await EventService.getById(eventId);
     let data = documentSnapshot.data();
-    console.log(`Retrieved data: ${JSON.stringify(data)}`);
-
+    // console.log(`Retrieved data: ${JSON.stringify(data)}`);
+    console.log(`Retrieved data`);
 
     // launch a new chrome instance
     const browser = await puppeteer.launch({
@@ -59,20 +66,32 @@ async function compileTpl(data) {
     // create a new page
     const page = await browser.newPage();
 
+    // convert image to code base64
+    const image = await convertToBase64(data.image[0].downloadURL);
+    
     // set your html as the pages content
-    const html = await compileTpl({ name: data.name, city: data.city });
+    const html = await compileTpl({ name: data?.name, image: `data:image/png;base64,${image}`});
     await page.setContent(html, {
       waitUntil: 'domcontentloaded',
     });
 
+    // add file with paths
+    const styleFilePath = path.join(
+      __dirname, 
+      '../functions/assets/styles/main.css'
+      );
+    await page.addStyleTag({path: styleFilePath});
+
+    // set the viewport to instagram post size
     await page.setViewport({
-      width: 960,
-      height: 760,
+      width: 1080,
+      height: 1080,
       deviceScaleFactor: 1,
     });
 
-    // const imageBuffer = await page.screenshot({});
-    await page.screenshot({ path: 'result.png', fullPage: true });
+    console.log(html);
+
+    await page.screenshot({ path: 'result.png' });
 
     await browser.close();
   } catch (error) {

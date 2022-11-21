@@ -11,6 +11,7 @@
   "dependencies": {
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",
+    "image-to-base64": "^2.2.0",
     "path": "^0.12.7",
     "puppeteer": "^19.2.2"
   }
