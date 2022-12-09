@@ -31,6 +31,16 @@
             }}</ion-button>
           </ion-col>
         </ion-row>
+        <ion-row *ngIf="instagram">
+          <ion-col>
+            <ion-button
+              (click)="generateInstagramPost()"
+              expand="block"
+              color="primary"
+              >Instagram</ion-button
+            >
+          </ion-col>
+        </ion-row>
       </div>
     </div>
   </ng-container>

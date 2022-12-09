@@ -7,11 +7,6 @@ import * as path from 'path';
 
 import imageToBase64 = require('image-to-base64');
 
-/* type Test = {
-  id: string;
-  name: string;
-} */
-
 /* eslint-disable no-alert, @typescript-eslint/no-explicit-any */
 export async function generateInstagramPicture(
   req: https.Request,
@@ -41,16 +36,24 @@ export async function generateInstagramPicture(
     }
   }
 
+  function selectRandomFile(path: string) {
+    const fileList: string[] = fs.readdirSync(path);
+    const fileListLength = fileList.length;
+    const randomNumber = Math.floor(Math.random() * fileListLength - 1);
+    return fileList[randomNumber];
+  }
+
   try {
     logger.info('Hello logs!', { structuredData: true });
-    // resp.send('Hello from Firebase!');
     (async () => {
       try {
-        const eventId = '0LIVlNHIoTtfJNuMBSfM';
+        const eventId: string | undefined = req.query.id?.toString();
+        if (eventId == undefined) {
+          throw new Error('eventId is missing!');
+        }
 
         const documentSnapshot = await EventService.getById(eventId);
         const data = documentSnapshot.data();
-        // console.log(`Retrieved data: ${JSON.stringify(data)}`);
         console.log('Retrieved data');
 
         // launch a new chrome instance
@@ -61,13 +64,36 @@ export async function generateInstagramPicture(
         // create a new page
         const page = await browser.newPage();
 
-        // convert image to code base64
-        const image = await convertToBase64(data?.image[0].downloadURL);
+        // convert all images to code base64
+        const eventPicture = await convertToBase64(data?.image[0].downloadURL); // WARNING!! Data should never be undefined
+
+        const mapImagePath = path.join(
+          __dirname,
+          '../../assets/images/map/portugal/porto.png'
+        );
+        const mapImage = await convertToBase64(mapImagePath);
+
+        const linePath = '../../assets/images/background/line/';
+        const lineImagePath = path.join(
+          __dirname,
+          `${linePath}${selectRandomFile(path.join(__dirname, linePath))}`
+        );
+        const lineImage = await convertToBase64(lineImagePath);
+
+        const blocksPath = '../../assets/images/background/blocks/';
+        const blocksImagePath = path.join(
+          __dirname,
+          `${blocksPath}${selectRandomFile(path.join(__dirname, blocksPath))}`
+        );
+        const blocksImage = await convertToBase64(blocksImagePath);
 
         // set your html as the pages content
         const html = await compileTpl({
           name: data?.name,
-          image: `data:image/png;base64,${image}`,
+          image: `data:image/png; base64,${eventPicture}`,
+          map: `data:image/png; base64,${mapImage}`,
+          line: `data:image/png; base64,${lineImage}`,
+          blocks: `data: image/png; base64,${blocksImage}`,
         });
         await page.setContent(html, {
           waitUntil: 'domcontentloaded',
@@ -84,15 +110,23 @@ export async function generateInstagramPicture(
         });
 
         // create screenshot of the result in a png format
-        await page.screenshot({ path: 'result.png' });
-
+        const imageResult = await page.screenshot();
         await browser.close();
+
+        resp.writeHead(200, {
+          'Content-Type': 'image/png',
+          'content-disposition': 'attatchment',
+        });
+        resp.write(imageResult.toString('binary'), 'binary');
+        resp.end();
       } catch (error) {
         console.log(error);
       } finally {
         () => process.exit(0);
       }
+      return 0;
     })();
+    // return 'das'
   } catch (error) {
     throw new https.HttpsError('internal', "Can't create Instagram post");
   }
