@@ -25,6 +25,7 @@ import { Events, Eventure } from '../../event.model';
 export class EventService {
   eventsRef: CollectionReference<Eventure>;
   categoryFilter$: BehaviorSubject<string | null>;
+  private CLOUD_FUNCTIONS_BASE: string;
 
   constructor(private firestore: Firestore) {
     this.categoryFilter$ = new BehaviorSubject(null);
@@ -32,6 +33,7 @@ export class EventService {
       firestore,
       Events.COLLECTION
     ) as CollectionReference<Eventure>;
+    this.CLOUD_FUNCTIONS_BASE = `https://us-central1-eventure-c01c8.cloudfunctions.net/`;
   }
 
   /**
@@ -82,5 +84,9 @@ export class EventService {
     const eventDocRef = doc(this.firestore, `events/${id}`);
 
     return deleteDoc(eventDocRef);
+  }
+
+  generateInstagramPost(id: string): string {
+    return `${this.CLOUD_FUNCTIONS_BASE}cgenerateInstagramPicture/?id=${id}`;
   }
 }

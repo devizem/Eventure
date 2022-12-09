@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, Data } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { delay, tap } from 'rxjs/operators';
 import { Eventure } from '../event.model';
@@ -16,6 +16,8 @@ export class EventDetailComponent implements OnInit {
   event$: Observable<Eventure>;
   event: Eventure;
   hostEl: HTMLElement;
+  instagram?: boolean;
+  eventId: string;
 
   constructor(
     private element: ElementRef,
@@ -30,12 +32,21 @@ export class EventDetailComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe({
       next: (prop: Params) => {
+        this.eventId = prop.id;
         this.event$ = this.eventService.getById(prop.id).pipe(
           tap((res) => {
             this.event = res;
             this.setBackgroundImage(res.picture);
           })
         );
+      },
+    });
+    // console.log(this.route.snapshot.data.name); Should use snapshot or data obeservable?
+    this.route.data.subscribe({
+      next: (prop: Data) => {
+        if (prop.instagram) {
+          this.instagram = prop.instagram;
+        }
       },
     });
   }
@@ -55,6 +66,12 @@ export class EventDetailComponent implements OnInit {
   async deleteEvent() {
     await this.eventService.delete(this.event.id);
     this.router.navigate(['/events']);
+  }
+
+  generateInstagramPost() {
+    window.location.href = this.eventService.generateInstagramPost(
+      this.eventId
+    );
   }
 
   private setBackgroundImage(url: string) {

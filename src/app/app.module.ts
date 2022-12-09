@@ -11,6 +11,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { provideStorage, getStorage } from '@angular/fire/storage';
+import { provideFunctions, getFunctions } from '@angular/fire/functions';
 import { customAnimation } from './animations/event-details-navegation';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { SharedModule } from './shared/shared.module';
@@ -38,6 +39,7 @@ export const httpLoaderFactory = (http: HttpClient) =>
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    provideFunctions(() => getFunctions()),
     IonicModule.forRoot({
       // navAnimation: customAnimation,
     }),
